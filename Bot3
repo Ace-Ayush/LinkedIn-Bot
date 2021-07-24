@@ -1,0 +1,7 @@
+"""     def post(self, text):
+        """ Make a text post """
+        self.driver.find_element_by_class_name('share-box__open').click()
+        self.driver.find_element_by_class_name('mentions-texteditor__content').send_keys(text)
+        self.driver.find_element_by_class_name('share-actions__primary-action').click() """
+
+#    bot.post(post_text)

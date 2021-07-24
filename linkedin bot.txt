@@ -1,0 +1,151 @@
+import os, random, sys, time
+from selenium import webdriver
+from bs4 import BeautifulSoup
+
+browser = webdriver.Chrome('driver/chromedriver.exe')
+
+browser.get('https://www.linkedin.com/uas/login')
+
+file = open('config.txt')
+lines = file.readlines()
+username = lines[0]
+password = lines[1]
+
+elementID = browser.find_element_by_id('username')
+elementID.send_keys(username)
+
+elementID = browser.find_element_by_id('password')
+elementID.send_keys(password)
+
+elementID.submit()
+
+#Open loggedin person's Profile
+""" visitingProfileID = '/in/ayush-shrivastava-ace-ayush/'
+fullLink = 'https://www.linkedin.com' + visitingProfileID
+browser.get(fullLink) """
+
+#visited "People you may know" id and collect them
+""" visitedProfiles = []
+profilesQueued = []
+
+def getNewProfileIDs(soup, profilesQueued):
+    profilesID = []
+    pav = soup.find('div', {'class': 'pv-browsemap-section'})
+    all_links = pav.findAll('a', {'class': 'pv-browsemap-section__member'})
+    for link in all_links:
+        userID = link.get('href')
+        if((userID not in profilesQueued) and (userID not in visitedProfiles)):
+            profilesID.append(userID)
+    return profilesID
+
+getNewProfileIDs(BeautifulSoup(browser.page_source), profilesQueued) """
+
+#open search and select 1st connection
+browser.get("https://www.linkedin.com/search/results/people/?network=%5B%22F%22%5D&origin=FACETED_SEARCH")
+
+all_buttons = browser.find_elements_by_tag_name("button")
+message_buttons = [button for button in all_buttons if button.txt == "Message"]
+
+message_buttons[0].click()
+
+
+
+
+
+
+
+
+
+
+*******************************************************************************************************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import os, random, sys, time
+import pyautogui as pag
+import time
+from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from bs4 import BeautifulSoup
+
+driver = webdriver.Chrome('driver/chromedriver.exe')
+
+driver.get('https://www.linkedin.com/uas/login')
+
+""" file = open('config.txt')
+lines = file.readlines()
+username = lines[0]
+password = lines[1]
+
+elementID = driver.find_element_by_id('username')
+elementID.send_keys(username)
+
+elementID = driver.find_element_by_id('password')
+elementID.send_keys(password)
+
+elementID.submit() """
+
+
+def main():
+  url =  "http://linkedin.com/"
+  network_url =  "http://linkedin.com/mynetwork/"
+  driver = webdriver.Chrome('driver/chromedriver.exe')
+  start_bot(driver,url,network_url)
+
+def login_to_linkedin(driver):
+  username = driver.find_element_by_id("session_key")
+  username.send_keys("ayushshrivastava600@gmail.com")
+  password = driver.find_element_by_id("session_password")
+  password.send_keys("#linkedin#")
+  driver.find_element_by_class_name("sign-in-form__submit-button").click()
+
+def  goto_network_page(driver,network_url):
+  driver.get(network_url)
+
+def  send_requests_to_users(driver):
+  WebDriverWait(driver, 60).until(
+    EC.presence_of_element_located((By.CLASS_NAME, "class name of an element"))
+)
+  javaScript =  "window.scrollBy(0,4000);"
+  driver.execute_script(javaScript)
+  n =  int(input("Number of requests: "))
+  for i in  range(0, n):
+    pag.click(441, 666)
+  print("Done !")
+
+def  take_a_screenshot(driver):
+  loc_time = time.localtime()
+  time_string = time.strftime("%m/%d/%Y", loc_time)
+  driver.save_screenshot(time_string+"_screenshot.png")
+
+def  accept_invitations_from_users(driver):
+  javaScript =  "window.scrollBy(0,0);"
+  driver.execute_script(javaScript)
+  element_exists =  True
+  while element_exists:
+    try:
+      driver.find_element_by_class_name("invitation-card__action-btn")
+    except NoSuchElementException:
+      element_exists =  False
+    finally :
+      if element_exists:
+        driver.find_element_by_class_name("invitation-card__action-btn artdeco-button--secondary").click()
+
+
+def  start_bot(driver,url,network_url):
+  driver.get(url)
+  login_to_linkedin(driver)
+  goto_network_page(driver,network_url)
+  send_requests_to_users(driver)
+  accept_invitations_from_users(driver)
